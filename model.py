@@ -142,7 +142,7 @@ def train(_):
           subfolder = os.listdir(path+"/"+name)
           for sub in subfolder:
             files = os.listdir(path+"/"+name+"/"+sub)
-              for file in files
+            for file in files:
                 shutil.move(path+"/"+name+"/"+sub+"/"+file,EXTRACT_PATH +"/data/"+name+"/"+sub)
         DATA_DIR = EXTRACT_PATH + "/data"    
 
