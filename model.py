@@ -139,11 +139,11 @@ def train(_):
         path = EXTRACT_PATH+ "/" +filepath +"/data/"
         folder = os.listdir(path)
         for name in folder:
-          subfolder = os.listdir(path+"/"+name)
+          subfolder = os.listdir(path+name)
           for sub in subfolder:
-            files = os.listdir(path+"/"+name+"/"+sub)
+            files = os.listdir(path+ name+"/"+sub)
             for file in files:
-                shutil.move(path+"/"+name+"/"+sub+"/"+file,EXTRACT_PATH +"/data/"+name+"/"+sub)
+                shutil.copy(path+ name+"/"+sub+"/"+file,EXTRACT_PATH +"/data/"+name+"/"+sub)
         DATA_DIR = EXTRACT_PATH + "/data"    
 
     params = {
@@ -151,7 +151,7 @@ def train(_):
         'module_name': 'resnet_v2_50',
         'learning_rate': 1e-3,
         'train_module': False,  # Whether we want to finetune the module
-        'label_vocab': os.listdir(os.path.join(DATA_DIR, 'valid'))
+        'label_vocab': ['cats','dogs']
     }
     global TFHUB_CACHE_DIR
     if TFHUB_CACHE_DIR != None:
