@@ -121,7 +121,9 @@ def model_fn(features, labels, mode, params):
     return spec
 
 def train(_):
-    
+    os.makedirs("/tmp/resnet-model/data/train")
+    os.makedirs("/tmp/resnet-model/data/valid")
+
     run_config = tf.estimator.RunConfig(model_dir=MODEL_DIR, save_summary_steps=summary_interval, save_checkpoints_steps=summary_interval)
     EXTRACT_PATH = "/tmp/resnet-model"
 
@@ -143,7 +145,7 @@ def train(_):
           for sub in subfolder:
             files = os.listdir(path+ name+"/"+sub)
             for file in files:
-                shutil.copy(path+ name+"/"+sub+"/"+file,EXTRACT_PATH +"/data/"+name+"/"+sub)
+                shutil.copy(path+ name+"/"+sub+"/"+file,EXTRACT_PATH +"/data/"+name)
         DATA_DIR = EXTRACT_PATH + "/data"    
 
     params = {
