@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 import multiprocessing
 import tensorflow as tf
 import tensorflow_hub as hub
@@ -122,8 +123,6 @@ def model_fn(features, labels, mode, params):
 def train(_):
     
     run_config = tf.estimator.RunConfig(model_dir=MODEL_DIR, save_summary_steps=summary_interval, save_checkpoints_steps=summary_interval)
-#    DATA_DIR = "{}/{}".format(DATUMS_PATH, DATASET_NAME)
-    print ("ENV, EXPORT_DIR:{}, DATA_DIR:{}".format(MODEL_DIR, DATA_DIR))
     EXTRACT_PATH = "/tmp/resnet-model"
 
     dataArray = DATASET_NAME.split(',')
@@ -137,12 +136,14 @@ def train(_):
             if file.startswith('data'):
                 archive.extract(file, EXTRACT_PATH + "/" +filepath)
                # print("Training data successfuly extracted")
-        path = EXTRACT_PATH+ filepath +"/data/"
+        path = EXTRACT_PATH+ "/" +filepath +"/data/"
         folder = os.listdir(path)
         for name in folder:
           subfolder = os.listdir(path+"/"+name)
           for sub in subfolder:
-            shutil.move(path+"/"+name+"/"+sub,EXTRACT_PATH +"/data/"+name+"/"+sub)
+            files = os.listdir(path+"/"+name+"/"+sub)
+              for file in files
+                shutil.move(path+"/"+name+"/"+sub+"/"+file,EXTRACT_PATH +"/data/"+name+"/"+sub)
         DATA_DIR = EXTRACT_PATH + "/data"    
 
     params = {
